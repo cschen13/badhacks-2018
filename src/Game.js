@@ -57,34 +57,64 @@ const ScoreDiv = styled('div')`
   color: #fefefe;
 `;
 
+const RoundDiv = styled('div')`
+  position: absolute;
+  left: 0;
+  transform: translateX(-50%);
+  top: 100px;
+  font-size: 2rem;
+  color: #fefefe;
+`;
+
+const INITIAL_STATE = {
+  leftGesture: 0,
+  rightGesture: 0,
+  leftScore: 0,
+  rightScore: 0,
+  leftTotal: 0,
+  rightTotal: 0,
+  currentRoundNum: 0,
+  currentRoundStartMS: 0,
+}
+
 export default class Game extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      leftGesture: 0,
-      rightGesture: 0,
-      leftScore: 0,
-      rightScore: 0,
-      leftTotal: 0,
-      rightTotal: 0,
-      currentRoundNum: 0,
-      currentRoundStartMS: 0,
-    };
+    this.state = { ...INITIAL_STATE };
   }
 
   componentWillReceiveProps() {
+    const { currentRoundNum, currentRoundStartMS } = this.state;
+    const timeSinceRoundStart = Date.now() - currentRoundStartMS;
+
+    if (currentRoundNum && timeSinceRoundStart >= ROUND_LENGTH_MS) {
+      this.startNewRound();
+    }
+
     this.getScores();
   }
 
-  componentDidMount() {
-    this.generateNewGesture();
+  restartGame = () => {
+    this.setState({ ...INITIAL_STATE });
   }
 
   startNewRound = () => {
-    const { currentRoundNum, currentRoundStartMS } = this.state;
+    const { currentRoundNum, currentRoundStartMS, leftScore, rightScore, leftTotal, rightTotal } = this.state;
+
+    let newLeftTotal = leftTotal;
+    let newRightTotal = rightTotal;
+
+    if (currentRoundNum > 0) {
+      newLeftTotal += 10000*(1-leftScore/(leftScore+rightScore)).toFixed(2);
+      newRightTotal += 10000*(1-rightScore/(leftScore+rightScore)).toFixed(2);
+    }
+
+    this.generateNewGesture();
     this.setState({
       currentRoundNum: currentRoundNum + 1,
       currentRoundStartMS: Date.now(),
+      leftTotal: newLeftTotal,
+      rightTotal: newRightTotal,
     });
   }
 
@@ -153,7 +183,7 @@ export default class Game extends Component {
 
   render() {
     const { leftHand, rightHand } = this.props;
-    const { leftGesture, rightGesture, leftScore, rightScore, currentRoundNum, currentRoundStartMS } = this.state;
+    const { leftGesture, rightGesture, leftScore, rightScore, leftTotal, rightTotal, currentRoundNum, currentRoundStartMS } = this.state;
 
     if (currentRoundNum === 0) {
       return (
@@ -162,6 +192,19 @@ export default class Game extends Component {
         </ButtonContainer>
       );
     }
+
+    if (currentRoundNum > MAX_ROUNDS) {
+      return (
+        <ButtonContainer>
+          <p>It's Over!!!</p>
+          <p>Left score: {leftTotal}</p>
+          <p>Right score: {rightTotal}</p>
+          <button onClick={this.restartGame}>Play again</button>
+        </ButtonContainer>
+      )
+    }
+
+    const timeSinceRoundStart = Date.now() - currentRoundStartMS;
 
     const leftWidth = (leftScore+rightScore) ? 100*(1-leftScore/(leftScore+rightScore)) : 50;
     const rightWidth = 100-leftWidth;
@@ -173,7 +216,8 @@ export default class Game extends Component {
         </SideDiv>
         <SideDiv width={rightWidth} color="#E7040F">
           <ScoreDiv side="left">{rightWidth.toFixed(2) * 100}</ScoreDiv>
-          <TimerDiv>{ Date.now() - currentRoundStartMS }</TimerDiv>
+          <TimerDiv>{ (ROUND_LENGTH_MS - timeSinceRoundStart)/1000 }s</TimerDiv>
+          <RoundDiv>Round { currentRoundNum }/{ MAX_ROUNDS }</RoundDiv>
         </SideDiv>
       </SidesContainer>
     );
