@@ -21,6 +21,15 @@
   const fingerTypeMap = ["Thumb", "Index finger", "Middle finger", "Ring finger", "Pinky finger"];
   const boneTypeMap = ["Metacarpal", "Proximal phalanx", "Intermediate phalanx", "Distal phalanx"];
 
+  function calcEuclideanDistance(v, u) {
+    let sum = 0;
+    for (let i = 0; i < 3; i++) {
+      sum += (v[i]-u[i]) * (v[i]-u[i]);
+    }
+
+    return Math.sqrt(sum);
+  }
+
   // note: before implementing based off of this, you can instead grab the boneHand plugin, which does this all for you,
   // better than the way it is done here.
   // https://developer.leapmotion.com/gallery/bone-hands
@@ -34,9 +43,11 @@
     Leap.loop({background: true}, {
       hand: function (hand) {
 
-        hand.frame.pointables.forEach(function(pointable) {
-          pointable.bones.forEach(function(bone) {
-            console.log(bone.type);
+        let distances = [];
+        hand.frame.pointables.forEach(function(pointable, i) {
+          let distance = {};
+          pointable.bones.forEach(function(bone, j) {
+            distance[boneTypeMap[i]] = calcEuclideanDistance(bone.direction(), gestures[0][pointable.type].bones[i])
           });
         });
 

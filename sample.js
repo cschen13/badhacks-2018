@@ -9,10 +9,10 @@ var controllerOptions = {enableGestures: true};
 // to use HMD mode:
 // controllerOptions.optimizeHMD = true;
 
-let fingers = [];
+let fingers = {};
 
 Leap.loop(controllerOptions, function(frame) {
-  fingers = [];
+  fingers = {};
 
   if (paused) {
     return; // Skip this update
@@ -105,19 +105,14 @@ Leap.loop(controllerOptions, function(frame) {
     var boneTypeMap = ["Metacarpal", "Proximal phalanx", "Intermediate phalanx", "Distal phalanx"];
     for (var i = 0; i < frame.pointables.length; i++) {
       let finger = {
-        type: pointable.type,
-        bones: []
+        bones: {}
       };
 
       pointable.bones.forEach(function(bone) {
-        finger.bones.push({
-          type: bone.type,
-          direction: bone.direction(),
-        });
+        finger.bones[bone.type] = { direction: bone.direction() };
       });
 
-      fingers.push(finger);
-
+      fingers[pointable.type] = finger;
 
       var pointable = frame.pointables[i];
 
