@@ -14,18 +14,47 @@ const calcEuclideanDistance = (v, u) => {
 const randInt = (n) => Math.floor(Math.random() * n);
 
 const ROUND_LENGTH_MS = 5000;
+const MAX_ROUNDS = 5;
 const VEC_DIFF_MAX = Math.sqrt(12);
+
+const ButtonContainer = styled('div')`
+  position: absolute;
+  z-index: 99;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 300px;
+`;
 
 const SidesContainer = styled('div')`
   height: 100vh;
   width: 100vw;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 `;
 
 const SideDiv = styled('div')`
   display: inline-block;
-  width: ${props => props.totalScore ? 100*(1-props.score/props.totalScore) : 50}%;
+  width: ${props => props.width}%;
   background-color: ${props => props.color};
   height: 100vh;
+  position: relative;
+`;
+
+const TimerDiv = styled('div')`
+  position: absolute;
+  left: 0;
+  transform: translateX(-50%);
+  top: 500px;
+  font-size: 2rem;
+  color: #fefefe;
+`;
+
+const ScoreDiv = styled('div')`
+  position: absolute;
+  ${props => props.side}: 20px;
+  top: 300px;
+  font-size: 3rem;
+  color: #fefefe;
 `;
 
 export default class Game extends Component {
@@ -38,7 +67,8 @@ export default class Game extends Component {
       rightScore: 0,
       leftTotal: 0,
       rightTotal: 0,
-      numRounds: 0,
+      currentRoundNum: 0,
+      currentRoundStartMS: 0,
     };
   }
 
@@ -48,6 +78,14 @@ export default class Game extends Component {
 
   componentDidMount() {
     this.generateNewGesture();
+  }
+
+  startNewRound = () => {
+    const { currentRoundNum, currentRoundStartMS } = this.state;
+    this.setState({
+      currentRoundNum: currentRoundNum + 1,
+      currentRoundStartMS: Date.now(),
+    });
   }
 
   getScores() {
@@ -115,17 +153,27 @@ export default class Game extends Component {
 
   render() {
     const { leftHand, rightHand } = this.props;
-    const { leftGesture, rightGesture, leftScore, rightScore } = this.state;
+    const { leftGesture, rightGesture, leftScore, rightScore, currentRoundNum, currentRoundStartMS } = this.state;
+
+    if (currentRoundNum === 0) {
+      return (
+        <ButtonContainer>
+          <button onClick={this.startNewRound}>Start</button>
+        </ButtonContainer>
+      );
+    }
+
+    const leftWidth = (leftScore+rightScore) ? 100*(1-leftScore/(leftScore+rightScore)) : 50;
+    const rightWidth = 100-leftWidth;
 
     return (
       <SidesContainer>
-        <SideDiv score={leftScore} totalScore={leftScore+rightScore} color="red">
-          <p>Left score: {leftScore}</p>
-          <p>Gesture: {leftGestures[leftGesture].name}</p>
+        <SideDiv width={leftWidth} color="#00449E">
+          <ScoreDiv side="right">{leftWidth.toFixed(2) * 100}</ScoreDiv>
         </SideDiv>
-        <SideDiv score={rightScore} totalScore={leftScore+rightScore} color="blue">
-          <p>Right score: {rightScore}</p>
-          <p>Gesture: {rightGestures[rightGesture].name}</p>
+        <SideDiv width={rightWidth} color="#E7040F">
+          <ScoreDiv side="left">{rightWidth.toFixed(2) * 100}</ScoreDiv>
+          <TimerDiv>{ Date.now() - currentRoundStartMS }</TimerDiv>
         </SideDiv>
       </SidesContainer>
     );
