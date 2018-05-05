@@ -1,10 +1,10 @@
 const gestures = [
   [
   {
-    "name": "Pinky finger",
+    "type": 4,
     "bones": [
       {
-        "name": "Metacarpal",
+        "type": 0,
         "direction": [
           0.426036,
           0.0453472,
@@ -12,7 +12,7 @@ const gestures = [
         ]
       },
       {
-        "name": "Proximal phalanx",
+        "type": 1,
         "direction": [
           0.314493,
           -0.121209,
@@ -20,7 +20,7 @@ const gestures = [
         ]
       },
       {
-        "name": "Intermediate phalanx",
+        "type": 2,
         "direction": [
           0.194419,
           -0.178063,
@@ -28,7 +28,7 @@ const gestures = [
         ]
       },
       {
-        "name": "Distal phalanx",
+        "type": 3,
         "direction": [
           0.101448,
           -0.218834,
@@ -38,10 +38,10 @@ const gestures = [
     ]
   },
   {
-    "name": "Thumb",
+    "type": 0,
     "bones": [
       {
-        "name": "Metacarpal",
+        "type": 0,
         "direction": [
           -0.0691118,
           0.544374,
@@ -49,7 +49,7 @@ const gestures = [
         ]
       },
       {
-        "name": "Proximal phalanx",
+        "type": 1,
         "direction": [
           -0.578786,
           0.443512,
@@ -57,7 +57,7 @@ const gestures = [
         ]
       },
       {
-        "name": "Intermediate phalanx",
+        "type": 2,
         "direction": [
           -0.36662,
           0.126342,
@@ -65,7 +65,7 @@ const gestures = [
         ]
       },
       {
-        "name": "Distal phalanx",
+        "type": 3,
         "direction": [
           -0.49015,
           0.299965,
@@ -75,10 +75,10 @@ const gestures = [
     ]
   },
   {
-    "name": "Index finger",
+    "type": 0,
     "bones": [
       {
-        "name": "Metacarpal",
+        "type": 0,
         "direction": [
           0.078362,
           0.289375,
@@ -86,7 +86,7 @@ const gestures = [
         ]
       },
       {
-        "name": "Proximal phalanx",
+        "type": 1,
         "direction": [
           0.428294,
           0.291819,
@@ -94,7 +94,7 @@ const gestures = [
         ]
       },
       {
-        "name": "Intermediate phalanx",
+        "type": 2,
         "direction": [
           0.213165,
           0.00365758,
@@ -102,7 +102,7 @@ const gestures = [
         ]
       },
       {
-        "name": "Distal phalanx",
+        "type": 3,
         "direction": [
           0.00195563,
           -0.246527,
@@ -112,10 +112,10 @@ const gestures = [
     ]
   },
   {
-    "name": "Middle finger",
+    "type": 2,
     "bones": [
       {
-        "name": "Metacarpal",
+        "type": 0,
         "direction": [
           0.187748,
           0.206792,
@@ -123,7 +123,7 @@ const gestures = [
         ]
       },
       {
-        "name": "Proximal phalanx",
+        "type": 1,
         "direction": [
           0.489693,
           0.147292,
@@ -131,7 +131,7 @@ const gestures = [
         ]
       },
       {
-        "name": "Intermediate phalanx",
+        "type": 2,
         "direction": [
           0.202819,
           -0.116383,
@@ -139,7 +139,7 @@ const gestures = [
         ]
       },
       {
-        "name": "Distal phalanx",
+        "type": 3,
         "direction": [
           -0.0703736,
           -0.327854,
@@ -149,10 +149,10 @@ const gestures = [
     ]
   },
   {
-    "name": "Ring finger",
+    "type": 3,
     "bones": [
       {
-        "name": "Metacarpal",
+        "type": 0,
         "direction": [
           0.302046,
           0.108994,
@@ -160,7 +160,7 @@ const gestures = [
         ]
       },
       {
-        "name": "Proximal phalanx",
+        "type": 1,
         "direction": [
           0.285149,
           -0.0546534,
@@ -168,7 +168,7 @@ const gestures = [
         ]
       },
       {
-        "name": "Intermediate phalanx",
+        "type": 2,
         "direction": [
           0.20194,
           -0.115418,
@@ -176,7 +176,7 @@ const gestures = [
         ]
       },
       {
-        "name": "Distal phalanx",
+        "type": 3,
         "direction": [
           0.136203,
           -0.161472,

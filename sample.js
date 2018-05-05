@@ -13,7 +13,7 @@ let fingers = [];
 
 Leap.loop(controllerOptions, function(frame) {
   fingers = [];
-  
+
   if (paused) {
     return; // Skip this update
   }
@@ -104,14 +104,14 @@ Leap.loop(controllerOptions, function(frame) {
     var fingerTypeMap = ["Thumb", "Index finger", "Middle finger", "Ring finger", "Pinky finger"];
     var boneTypeMap = ["Metacarpal", "Proximal phalanx", "Intermediate phalanx", "Distal phalanx"];
     for (var i = 0; i < frame.pointables.length; i++) {
-      let finger = { 
-        name: fingerTypeMap[pointable.type],
+      let finger = {
+        type: pointable.type,
         bones: []
       };
 
       pointable.bones.forEach(function(bone) {
         finger.bones.push({
-          name: boneTypeMap[bone.type],
+          type: bone.type,
           direction: bone.direction(),
         });
       });
