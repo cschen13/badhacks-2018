@@ -44,12 +44,17 @@
       hand: function (hand) {
 
         let distances = [];
-        hand.frame.pointables.forEach(function(pointable, i) {
+        let sum = 0;
+        hand.frame.pointables.forEach(function(pointable) {
           let distance = {};
-          pointable.bones.forEach(function(bone, j) {
-            distance[boneTypeMap[i]] = calcEuclideanDistance(bone.direction(), gestures[0][pointable.type].bones[i])
+          pointable.bones.forEach(function(bone) {
+            let dist = calcEuclideanDistance(bone.direction(), gestures[0][pointable.type].bones[bone.type].direction);
+            distance[bone.type] = dist;
+            sum += dist;
           });
+          distances.push(distance)
         });
+        console.log(distances, sum);
 
         hand.fingers.forEach(function (finger) {
 
