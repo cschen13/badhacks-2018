@@ -1,7 +1,7 @@
 /*eslint-disable no-undef*/
 
 import React, { Component } from 'react';
-import './App.css';
+import Game from './Game';
 
 class App extends Component {
   constructor(props) {
@@ -12,25 +12,11 @@ class App extends Component {
     );
 
     Leap.loop({background: true}, {
-      hand: function (hand) {
-
-        // let distances = [];
-        // let sum = 0;
-        // hand.frame.pointables.forEach(function(pointable) {
-        //   let distance = {};
-        //   pointable.bones.forEach(function(bone) {
-        //     let dist = calcEuclideanDistance(bone.direction(), gestures[0][pointable.type].bones[bone.type].direction);
-        //     distance[bone.type] = dist;
-        //     sum += dist;
-        //   });
-        //   distances.push(distance)
-        // });
-        // console.log(distances, sum);
-
-        hand.fingers.forEach(function (finger) {
+      hand: (hand) => {
+        hand.fingers.forEach( (finger) => {
 
           // This is the meat of the example - Positioning `the cylinders on every frame:
-          finger.data('boneMeshes').forEach(function(mesh, i){
+          finger.data('boneMeshes').forEach((mesh, i) => {
             var bone = finger.bones[i];
 
             mesh.position.fromArray(bone.center());
@@ -42,7 +28,7 @@ class App extends Component {
             mesh.quaternion.multiply(baseBoneRotation);
           });
 
-          finger.data('jointMeshes').forEach(function(mesh, i){
+          finger.data('jointMeshes').forEach((mesh, i) => {
             var bone = finger.bones[i];
 
             if (bone) {
@@ -71,6 +57,9 @@ class App extends Component {
         armMesh.scale.z = hand.arm.width / 4;
 
       renderer.render(scene, camera);
+      this.setState({
+        [hand.type]: hand
+      })
 
     }})
       // these two LeapJS plugins, handHold and handEntry are available from leapjs-plugins, included above.
@@ -78,14 +67,14 @@ class App extends Component {
       // handEntry provides handFound/handLost events.
     .use('handHold')
     .use('handEntry')
-    .on('handFound', function(hand){
+    .on('handFound', (hand) => {
 
-      hand.fingers.forEach(function (finger) {
+      hand.fingers.forEach((finger) => {
 
         var boneMeshes = [];
         var jointMeshes = [];
 
-        finger.bones.forEach(function(bone) {
+        finger.bones.forEach((bone) => {
 
           // create joints
 
@@ -131,22 +120,20 @@ class App extends Component {
         scene.add(armMesh);
 
         hand.data('armMesh', armMesh);
-
       }
 
     })
-    .on('handLost', function(hand){
-
-      hand.fingers.forEach(function (finger) {
+    .on('handLost', (hand) => {
+      hand.fingers.forEach((finger) => {
 
         var boneMeshes = finger.data('boneMeshes');
         var jointMeshes = finger.data('jointMeshes');
 
-        boneMeshes.forEach(function(mesh){
+        boneMeshes.forEach((mesh) => {
           scene.remove(mesh);
         });
 
-        jointMeshes.forEach(function(mesh){
+        jointMeshes.forEach((mesh) => {
           scene.remove(mesh);
         });
 
@@ -154,7 +141,6 @@ class App extends Component {
           boneMeshes: null,
           boneMeshes: null
         });
-
       });
 
       var armMesh = hand.data('armMesh');
@@ -165,6 +151,11 @@ class App extends Component {
 
     })
     .connect();
+
+    this.state = {
+      left: {},
+      right: {},
+    };
   }
 
   componentDidMount() {
@@ -192,13 +183,11 @@ class App extends Component {
     window.camera.position.fromArray([0, 100, 500]);
     window.camera.lookAt(new THREE.Vector3(0, 160, 0));
 
-    window.addEventListener('resize', function () {
-
+    window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.render(scene, camera);
-
     }, false);
 
     scene.add(camera);
@@ -207,10 +196,9 @@ class App extends Component {
   }
 
   render() {
+    const { left, right } = this.state;
     return (
-      <div>
-
-      </div>
+      <Game leftHand={left} rightHand={right} />
     );
   }
 }

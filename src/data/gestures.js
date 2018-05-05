@@ -1,6 +1,6 @@
-const leftGestures = [
-    // classic force choke
+export const leftGestures = [
     {
+        "name": "classic force choke",
         "0": {
             "bones": {
                 "0": {
@@ -116,8 +116,8 @@ const leftGestures = [
         }
     },
 
-    // open hand
     {
+        "name": "open hand",
         "0": {
             "bones": {
                 "0": {
@@ -245,8 +245,8 @@ const leftGestures = [
         }
     },
 
-    //finger point
     {
+        "name": "finger point",
         "0": {
             "bones": {
                 "0": {
@@ -379,8 +379,8 @@ const leftGestures = [
         }
     },
 
-    // underhand choke
     {
+        "name": "underhand choke",
         "0": {
             "bones": {
                 "0": {
@@ -516,8 +516,8 @@ const leftGestures = [
         }
     },
 
-    // spock
     {
+        "name": "spock",
         "0": {
             "bones": {
                 "0": {
@@ -649,9 +649,9 @@ const leftGestures = [
 
 ];
 
-const rightGestures = [
-    // classic force choke
+export const rightGestures = [
     {
+        "name": "classic force choke",
         "0": {
             "bones": {
                 "0": {
@@ -767,8 +767,8 @@ const rightGestures = [
         }
     },
 
-    // open hand
     {
+        "name": "open hand",
         "0": {
             "bones": {
                 "0": {
@@ -898,8 +898,8 @@ const rightGestures = [
         }
     },
 
-    // underhand choke
     {
+        "name": "underhand choke",
         "0": {
             "bones": {
                 "0": {
@@ -1025,8 +1025,8 @@ const rightGestures = [
         }
     },
 
-    // ok-fingers
     {
+        "name": "ok-fingers",
         "0": {
             "bones": {
                 "0": {
@@ -1147,8 +1147,8 @@ const rightGestures = [
         }
     },
 
-    // spock
     {
+        "name": "spock",
         "0": {
             "bones": {
                 "0": {
