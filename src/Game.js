@@ -12,6 +12,8 @@ import rightOk from './data/images/rightGestures/ok_fingers.jpg';
 import rightOpen from './data/images/rightGestures/open_hand.jpg';
 import rightClassic from './data/images/rightGestures/classic_force_choke.jpg';
 import forceVideo from './data/force.mp4';
+import redVideo from './data/red_wins.mp4';
+import blueVideo from './data/blue_wins.mp4';
 
 const calcEuclideanDistance = (v, u) => {
   let sum = 0;
@@ -255,12 +257,18 @@ export default class Game extends Component {
         <GameOverContainer winner={leftTotal > rightTotal ? '#E7040F' : '#00449E'}>
           { leftTotal > rightTotal &&
             <div>
+              <Video autoPlay loop>
+                <source src={redVideo} type='video/mp4' />
+              </Video>
               <GameOverText>UNLIMITED POWER!!!!!!</GameOverText>
               <GameOverText>The Sith win: {leftTotal} vs. {rightTotal}</GameOverText>
             </div>
           }
           { leftTotal < rightTotal &&
             <div>
+              <Video autoPlay loop>
+                <source src={blueVideo} type='video/mp4' />
+              </Video>
               <GameOverText>It's over, Anakin! I have the higher ground!</GameOverText>
               <GameOverText>The Jedi win: {rightTotal} vs. {leftTotal}</GameOverText>
             </div>
