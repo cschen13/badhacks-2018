@@ -90,7 +90,6 @@ const RoundDiv = styled('div')`
 const Img = styled('img')`
   position: absolute;
   ${props => props.side}: 0;
-  top: 200px;
   z-index: 99;
 `;
 
