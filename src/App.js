@@ -6,8 +6,7 @@ import Game from './Game';
 class App extends Component {
   constructor(props) {
     super(props);
-    var colors = [0xff0000, 0x00ff00, 0x0000ff];
-    var baseBoneRotation = (new THREE.Quaternion).setFromEuler(
+    var baseBoneRotation = (new THREE.Quaternion()).setFromEuler(
         new THREE.Euler(Math.PI / 2, 0, 0)
     );
 
@@ -22,7 +21,7 @@ class App extends Component {
             mesh.position.fromArray(bone.center());
 
             mesh.setRotationFromMatrix(
-              (new THREE.Matrix4).fromArray( bone.matrix() )
+              (new THREE.Matrix4()).fromArray( bone.matrix() )
             );
 
             mesh.quaternion.multiply(baseBoneRotation);
@@ -48,7 +47,7 @@ class App extends Component {
         armMesh.position.fromArray(hand.arm.center());
 
         armMesh.setRotationFromMatrix(
-          (new THREE.Matrix4).fromArray( hand.arm.matrix() )
+          (new THREE.Matrix4()).fromArray( hand.arm.matrix() )
         );
 
         armMesh.quaternion.multiply(baseBoneRotation);
@@ -138,7 +137,6 @@ class App extends Component {
         });
 
         finger.data({
-          boneMeshes: null,
           boneMeshes: null
         });
       });

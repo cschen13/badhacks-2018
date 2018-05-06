@@ -146,7 +146,7 @@ export default class Game extends Component {
   }
 
   startNewRound = () => {
-    const { currentRoundNum, currentRoundStartMS, leftScore, rightScore, leftTotal, rightTotal } = this.state;
+    const { currentRoundNum, leftScore, rightScore, leftTotal, rightTotal } = this.state;
 
     let newLeftTotal = leftTotal;
     let newRightTotal = rightTotal;
@@ -229,8 +229,16 @@ export default class Game extends Component {
   }
 
   render() {
-    const { leftHand, rightHand } = this.props;
-    const { leftGesture, rightGesture, leftScore, rightScore, leftTotal, rightTotal, currentRoundNum, currentRoundStartMS } = this.state;
+    const {
+      leftGesture,
+      rightGesture,
+      leftScore,
+      rightScore,
+      leftTotal,
+      rightTotal,
+      currentRoundNum,
+      currentRoundStartMS
+    } = this.state;
 
     if (currentRoundNum === 0) {
       return (
