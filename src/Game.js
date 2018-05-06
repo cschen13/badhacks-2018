@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import styled from 'react-emotion';
 import { leftGestures, rightGestures } from './data/gestures';
+import leftClassic from './data/images/leftGestures/classic_force_choke.jpg';
+import leftFingerPoint from './data/images/leftGestures/finger_point.jpg';
+import leftOpen from './data/images/leftGestures/open_hand.jpg';
+import leftSpock from './data/images/leftGestures/spock.jpg';
+import leftUnderhand from './data/images/leftGestures/underhand_choke.jpg';
+import rightSpock from './data/images/rightGestures/spock.jpg';
+import rightUnderhand from './data/images/rightGestures/underhand_choke.jpg';
+import rightOk from './data/images/rightGestures/ok_fingers.jpg';
+import rightOpen from './data/images/rightGestures/open_hand.jpg';
+import rightClassic from './data/images/rightGestures/classic_force_choke.jpg';
+import forceVideo from './data/force.mp4';
 
 const calcEuclideanDistance = (v, u) => {
   let sum = 0;
@@ -13,9 +24,12 @@ const calcEuclideanDistance = (v, u) => {
 
 const randInt = (n) => Math.floor(Math.random() * n);
 
-const ROUND_LENGTH_MS = 5000;
+const ROUND_LENGTH_MS = 7000;
 const MAX_ROUNDS = 5;
 const VEC_DIFF_MAX = Math.sqrt(12);
+
+const leftImages = [leftClassic, leftOpen, leftFingerPoint, leftUnderhand, leftSpock];
+const rightImages = [rightClassic, rightOpen, rightUnderhand, rightOk, rightSpock];
 
 const ButtonContainer = styled('div')`
   position: absolute;
@@ -30,6 +44,7 @@ const SidesContainer = styled('div')`
   width: 100vw;
   position: relative;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  z-index: 0;
 `;
 
 const SideDiv = styled('div')`
@@ -38,6 +53,7 @@ const SideDiv = styled('div')`
   background-color: ${props => props.color};
   height: 100vh;
   position: relative;
+  opacity: 0.75;
 `;
 
 const TimerDiv = styled('div')`
@@ -65,6 +81,21 @@ const RoundDiv = styled('div')`
   font-size: 2rem;
   color: #fefefe;
 `;
+
+const Img = styled('img')`
+  position: absolute;
+  ${props => props.side}: 25%;
+  top: 200px;
+  transform: translateX(${props => props.side === 'left' ? -50 : 50}%);
+  z-index: 99;
+`
+
+const Video = styled('video')`
+  left: 0;
+  position: absolute;
+  height: 800px;
+  z-index: -1;
+`
 
 const INITIAL_STATE = {
   leftGesture: 0,
@@ -187,9 +218,11 @@ export default class Game extends Component {
 
     if (currentRoundNum === 0) {
       return (
-        <ButtonContainer>
-          <button onClick={this.startNewRound}>Start</button>
-        </ButtonContainer>
+        <div>
+          <ButtonContainer>
+            <button onClick={this.startNewRound}>Start</button>
+          </ButtonContainer>
+        </div>
       );
     }
 
@@ -211,14 +244,19 @@ export default class Game extends Component {
 
     return (
       <SidesContainer>
-        <SideDiv width={leftWidth} color="#00449E">
+        <Img src={leftImages[leftGesture]} height="200px" side="left"/>
+        <SideDiv width={leftWidth} color="#E7040F">
           <ScoreDiv side="right">{leftWidth.toFixed(2) * 100}</ScoreDiv>
         </SideDiv>
-        <SideDiv width={rightWidth} color="#E7040F">
+        <Img src={rightImages[rightGesture]} height="200px" side="right" />
+        <SideDiv width={rightWidth} color="#00449E">
           <ScoreDiv side="left">{rightWidth.toFixed(2) * 100}</ScoreDiv>
           <TimerDiv>{ (ROUND_LENGTH_MS - timeSinceRoundStart)/1000 }s</TimerDiv>
           <RoundDiv>Round { currentRoundNum }/{ MAX_ROUNDS }</RoundDiv>
         </SideDiv>
+        <Video autoPlay loop>
+          <source src={forceVideo} type='video/mp4' />
+        </Video>
       </SidesContainer>
     );
   }
