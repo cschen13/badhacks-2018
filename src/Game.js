@@ -89,9 +89,8 @@ const RoundDiv = styled('div')`
 
 const Img = styled('img')`
   position: absolute;
-  ${props => props.side}: 25%;
+  ${props => props.side}: 0;
   top: 200px;
-  transform: translateX(${props => props.side === 'left' ? -50 : 50}%);
   z-index: 99;
 `;
 
