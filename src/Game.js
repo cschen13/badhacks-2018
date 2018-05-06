@@ -27,7 +27,7 @@ const calcEuclideanDistance = (v, u) => {
 const randInt = (n) => Math.floor(Math.random() * n);
 
 const ROUND_LENGTH_MS = 7000;
-const MAX_ROUNDS = 5;
+const MAX_ROUNDS = 1;
 const VEC_DIFF_MAX = Math.sqrt(12);
 
 const leftImages = [leftClassic, leftOpen, leftFingerPoint, leftUnderhand, leftSpock];
@@ -102,10 +102,23 @@ const Video = styled('video')`
 `;
 
 const GameOverContainer = styled('div')`
-  width: 100vw;
-  height: 100vh;
   background-color: ${props => props.winner};
+`;
+
+const GameOverFilter = styled('div')`
+  background-color: ${props => props.winner};
+  opacity: 0.5;
+  position: absolute;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 0;
+`;
+
+const GameOverTextContainer = styled('div')`
   padding-top: 100px;
+  position: relative;
+  z-index: 99;
 `;
 
 const GameOverText = styled('p')`
@@ -254,14 +267,17 @@ export default class Game extends Component {
 
     if (currentRoundNum > MAX_ROUNDS) {
       return (
-        <GameOverContainer winner={leftTotal > rightTotal ? '#E7040F' : '#00449E'}>
+        <GameOverContainer>
+          <GameOverFilter winner={leftTotal > rightTotal ? '#E7040F' : '#00449E'} />
           { leftTotal > rightTotal &&
             <div>
               <Video autoPlay loop>
                 <source src={redVideo} type='video/mp4' />
               </Video>
-              <GameOverText>UNLIMITED POWER!!!!!!</GameOverText>
-              <GameOverText>The Sith win: {leftTotal} vs. {rightTotal}</GameOverText>
+              <GameOverTextContainer>
+                <GameOverText>UNLIMITED POWER!!!!!!</GameOverText>
+                <GameOverText>The Sith win: {leftTotal} vs. {rightTotal}</GameOverText>
+              </GameOverTextContainer>
             </div>
           }
           { leftTotal < rightTotal &&
@@ -269,15 +285,17 @@ export default class Game extends Component {
               <Video autoPlay loop>
                 <source src={blueVideo} type='video/mp4' />
               </Video>
-              <GameOverText>It's over, Anakin! I have the higher ground!</GameOverText>
-              <GameOverText>The Jedi win: {rightTotal} vs. {leftTotal}</GameOverText>
+              <GameOverTextContainer>
+                <GameOverText>It's over, Anakin! I have the higher ground!</GameOverText>
+                <GameOverText>The Jedi win: {rightTotal} vs. {leftTotal}</GameOverText>
+              </GameOverTextContainer>
             </div>
           }
           { leftTotal === rightTotal &&
-            <div>
+            <GameOverTextContainer>
               <GameOverText>So this is what you call a diplomatic mission?</GameOverText>
               <GameOverText>It's a tie! {rightTotal} vs. {leftTotal}</GameOverText>
-            </div>
+            </GameOverTextContainer>
           }
           <ButtonContainer>
             <button onClick={this.restartGame}>Play again</button>
