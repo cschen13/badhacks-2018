@@ -25,7 +25,7 @@ const calcEuclideanDistance = (v, u) => {
 const randInt = (n) => Math.floor(Math.random() * n);
 
 const ROUND_LENGTH_MS = 7000;
-const MAX_ROUNDS = 1;
+const MAX_ROUNDS = 5;
 const VEC_DIFF_MAX = Math.sqrt(12);
 
 const leftImages = [leftClassic, leftOpen, leftFingerPoint, leftUnderhand, leftSpock];

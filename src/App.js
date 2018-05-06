@@ -67,44 +67,45 @@ class App extends Component {
     .use('handHold')
     .use('handEntry')
     .on('handFound', (hand) => {
-
       hand.fingers.forEach((finger) => {
-
         var boneMeshes = [];
         var jointMeshes = [];
 
         finger.bones.forEach((bone) => {
-
           // create joints
-
           // CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded)
           var boneMesh = new THREE.Mesh(
               new THREE.CylinderGeometry(5, 5, bone.length),
               new THREE.MeshPhongMaterial()
           );
 
-          boneMesh.material.color.setHex(0xffffff);
+          if (hand.type === 'left') {
+            boneMesh.material.color.setHex(0x000000);
+          } else {
+            boneMesh.material.color.setHex(0xffffff);
+          }
           scene.add(boneMesh);
           boneMeshes.push(boneMesh);
         });
 
         for (var i = 0; i < finger.bones.length + 1; i++) {
-
           var jointMesh = new THREE.Mesh(
               new THREE.SphereGeometry(8),
               new THREE.MeshPhongMaterial()
           );
 
-          jointMesh.material.color.setHex(0x0088ce);
+          if (hand.type === 'left') {
+            jointMesh.material.color.setHex(0xE7040F);
+          } else {
+            jointMesh.material.color.setHex(0x00449E);
+          }
+
           scene.add(jointMesh);
           jointMeshes.push(jointMesh);
-
         }
-
 
         finger.data('boneMeshes', boneMeshes);
         finger.data('jointMeshes', jointMeshes);
-
       });
 
       if (hand.arm){ // 2.0.3+ have arm api,
@@ -114,7 +115,11 @@ class App extends Component {
           new THREE.MeshPhongMaterial()
         );
 
-        armMesh.material.color.setHex(0xffffff);
+        if (hand.type === 'left') {
+          armMesh.material.color.setHex(0x333333);
+        } else {
+          armMesh.material.color.setHex(0xffffff);
+        }
 
         scene.add(armMesh);
 
