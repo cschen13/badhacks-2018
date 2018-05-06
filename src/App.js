@@ -122,14 +122,11 @@ class App extends Component {
         }
 
         scene.add(armMesh);
-
         hand.data('armMesh', armMesh);
       }
-
     })
     .on('handLost', (hand) => {
       hand.fingers.forEach((finger) => {
-
         var boneMeshes = finger.data('boneMeshes');
         var jointMeshes = finger.data('jointMeshes');
 
@@ -151,7 +148,6 @@ class App extends Component {
       hand.data('armMesh', null);
 
       renderer.render(scene, camera);
-
     })
     .connect();
 
@@ -194,7 +190,6 @@ class App extends Component {
     }, false);
 
     scene.add(camera);
-
     renderer.render(scene, camera);
   }
 
