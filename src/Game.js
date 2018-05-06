@@ -14,6 +14,7 @@ import rightClassic from './data/images/rightGestures/classic_force_choke.jpg';
 import forceVideo from './data/force.mp4';
 import redVideo from './data/red_wins.mp4';
 import blueVideo from './data/blue_wins.mp4';
+import introVideo from './data/intro.mp4';
 
 const calcEuclideanDistance = (v, u) => {
   let sum = 0;
@@ -258,6 +259,9 @@ export default class Game extends Component {
     if (currentRoundNum === 0) {
       return (
         <div>
+          <Video autoPlay loop>
+            <source src={introVideo} type='video/mp4' />
+          </Video>
           <ButtonContainer>
             <button onClick={this.startNewRound}>Start</button>
           </ButtonContainer>
