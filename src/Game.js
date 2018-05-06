@@ -25,11 +25,13 @@ const calcEuclideanDistance = (v, u) => {
 const randInt = (n) => Math.floor(Math.random() * n);
 
 const ROUND_LENGTH_MS = 7000;
-const MAX_ROUNDS = 5;
+const MAX_ROUNDS = 1;
 const VEC_DIFF_MAX = Math.sqrt(12);
 
 const leftImages = [leftClassic, leftOpen, leftFingerPoint, leftUnderhand, leftSpock];
 const rightImages = [rightClassic, rightOpen, rightUnderhand, rightOk, rightSpock];
+
+const FONT_STACK = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";';
 
 const ButtonContainer = styled('div')`
   position: absolute;
@@ -43,7 +45,7 @@ const SidesContainer = styled('div')`
   height: 100vh;
   width: 100vw;
   position: relative;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: ${FONT_STACK};
   z-index: 0;
 `;
 
@@ -88,14 +90,28 @@ const Img = styled('img')`
   top: 200px;
   transform: translateX(${props => props.side === 'left' ? -50 : 50}%);
   z-index: 99;
-`
+`;
 
 const Video = styled('video')`
   left: 0;
   position: absolute;
   height: 800px;
   z-index: -1;
-`
+`;
+
+const GameOverContainer = styled('div')`
+  width: 100vw;
+  height: 100vh;
+  background-color: ${props => props.winner};
+  padding-top: 100px;
+`;
+
+const GameOverText = styled('p')`
+  text-align: center;
+  font-size: 3rem;
+  color: #fefefe;
+  font-family: ${FONT_STACK};
+`;
 
 const INITIAL_STATE = {
   leftGesture: 0,
@@ -228,12 +244,29 @@ export default class Game extends Component {
 
     if (currentRoundNum > MAX_ROUNDS) {
       return (
-        <ButtonContainer>
-          <p>It's Over!!!</p>
-          <p>Left score: {leftTotal}</p>
-          <p>Right score: {rightTotal}</p>
-          <button onClick={this.restartGame}>Play again</button>
-        </ButtonContainer>
+        <GameOverContainer winner={leftTotal > rightTotal ? '#E7040F' : '#00449E'}>
+          { leftTotal > rightTotal &&
+            <div>
+              <GameOverText>UNLIMITED POWER!!!!!!</GameOverText>
+              <GameOverText>The Sith win: {leftTotal} vs. {rightTotal}</GameOverText>
+            </div>
+          }
+          { leftTotal < rightTotal &&
+            <div>
+              <GameOverText>It's over, Anakin! I have the higher ground!</GameOverText>
+              <GameOverText>The Jedi win: {rightTotal} vs. {leftTotal}</GameOverText>
+            </div>
+          }
+          { leftTotal === rightTotal &&
+            <div>
+              <GameOverText>So this is what you call a diplomatic mission?</GameOverText>
+              <GameOverText>It's a tie! {rightTotal} vs. {leftTotal}</GameOverText>
+            </div>
+          }
+          <ButtonContainer>
+            <button onClick={this.restartGame}>Play again</button>
+          </ButtonContainer>
+        </GameOverContainer>
       )
     }
 
