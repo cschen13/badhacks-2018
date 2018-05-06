@@ -152,7 +152,9 @@ export default class Game extends Component {
       this.startNewRound();
     }
 
-    this.getScores();
+    if (currentRoundNum <= MAX_ROUNDS) {
+      this.getScores();
+    }
   }
 
   restartGame = () => {
